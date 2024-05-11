@@ -8,7 +8,7 @@ services:
     container_name: app-back
     environment:
       - SERVER_PORT=8081
-      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.0.1:3306/gestionstock?createDatabaseIfNotExist=true&userSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_URL=jdbc:mysql://app-db:3306/gestionstock?createDatabaseIfNotExist=true&userSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=vagrant
     ports:
@@ -16,6 +16,8 @@ services:
     depends_on:
       - app-db
     restart: always
+    networks:
+      - app-network
 
   app-db:
     image: mysql:latest
@@ -26,9 +28,9 @@ services:
     ports:
       - "3306:3306"
     restart: always
+    networks:
+      - app-network
 
 networks:
   app-network:
 
-volumes:
-  mysql_data:
