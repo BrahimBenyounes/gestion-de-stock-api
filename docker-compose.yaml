@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  app-back:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app-back
+    environment:
+      - SERVER_PORT=8081
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.0.1:3306/gestionstock?createDatabaseIfNotExist=true&userSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=vagrant
+    ports:
+      - "8081:8081"
+    depends_on:
+      - app-db
+    restart: always
+
+  app-db:
+    image: mysql:latest
+    container_name: app-db
+    environment:
+      MYSQL_ROOT_PASSWORD: vagrant
+      MYSQL_DATABASE: gestionstock
+    ports:
+      - "3306:3306"
+    restart: always
+
+networks:
+  app-network:
+
+volumes:
+  mysql_data:
