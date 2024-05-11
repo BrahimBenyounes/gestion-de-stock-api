@@ -1,17 +1,14 @@
-FROM openjdk:11
+# Use a smaller base image like 'openjdk:11-jre-slim'
+FROM openjdk:11-jre-slim
 
 # Set working directory
 WORKDIR /app
 
 # Copy the application JAR file
-ADD target/ibrahim-app.jar /app/ibrahim-app.jar
+COPY target/ibrahim-app.jar /app/ibrahim-app.jar
 
-# Expose port 8081
+# Expose port 8081 (this is optional as you're not binding it here)
 EXPOSE 8081
 
-# Add additional dependencies or configurations here
-# For example, if you want to install additional packages, you can use apt-get
-# RUN apt-get update && apt-get install -y <package-name>
-
 # Set entrypoint
-ENTRYPOINT ["java", "-jar", "/app/ibrahim-app.jar"]
+ENTRYPOINT ["java", "-jar", "ibrahim-app.jar"]
