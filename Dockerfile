@@ -1,14 +1,25 @@
-# Use a smaller base image like 'openjdk:11-jre-slim'
-FROM openjdk:11-jre-slim
+# Stage 1: Build the application
+FROM maven:3.8.3-openjdk-11-slim AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Copy the application JAR file
-COPY target/ibrahim-app.jar /app/ibrahim-app.jar
+# Copy the Maven project files
+COPY pom.xml .
+COPY src ./src
 
-# Expose port 8081 (this is optional as you're not binding it here)
+# Build the application
+RUN mvn clean package -DskipTests
+
+# Stage 2: Create a smaller image
+FROM openjdk:11-jre-slim
+
+WORKDIR /app
+
+# Copy the built JAR file from the builder stage
+COPY --from=builder /app/target/ibrahim-app.jar .
+
+# Expose port 8081 (optional)
 EXPOSE 8081
 
-# Set entrypoint
+# Set the entrypoint
 ENTRYPOINT ["java", "-jar", "ibrahim-app.jar"]
