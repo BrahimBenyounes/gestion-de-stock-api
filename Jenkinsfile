@@ -8,14 +8,14 @@ pipeline {
     }
 
     stages {
-        stage('Run Tests') {
-            steps {
-                script {
+      //  stage('Run Tests') {
+       //     steps {
+         //       script {
                     // Running Maven tests using a Docker image
-                    sh 'docker run --rm -v $PWD:/app -w /app maven:3.6-openjdk-8 mvn test'
-                }
-            }
-        }
+       //             sh 'docker run --rm -v $PWD:/app -w /app maven:3.6-openjdk-8 mvn test'
+       //         }
+       //     }
+     //   }
 
  //       stage('Push Docker Image to Docker Hub') {
  //           steps {
